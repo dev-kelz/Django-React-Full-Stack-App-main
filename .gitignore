@@ -1,0 +1,13 @@
+# Virtual environment
+venv/
+
+# Backend env file
+backend/.env
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+
+# System files
+.DS_Store

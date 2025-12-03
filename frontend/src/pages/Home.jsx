@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import api from "../api";
+import LogoutButton from "../components/LogoutButton";
 import Note from "../components/Note"
 import "../styles/Home.css"
 
@@ -48,10 +49,14 @@ function Home() {
 
     return (
         <div>
+            <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                <LogoutButton />
+            </div>
             <div>
                 <h2>Notes</h2>
                 {notes.map((note) => (
                     <Note note={note} onDelete={deleteNote} key={note.id} />
+                    
                 ))}
             </div>
             <h2>Create a Note</h2>

@@ -66,3 +66,23 @@ form input[type="submit"] {
 form input[type="submit"]:hover {
   background-color: #0056b3;
 }
+
+/* Logout button (top-right) */
+.logout-wrapper {
+  margin: 1rem;
+}
+
+.logout-button {
+  background: transparent;
+  border: 1px solid #d9534f;
+  color: #d9534f;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.logout-button:hover {
+  background: #d9534f;
+  color: white;
+}
