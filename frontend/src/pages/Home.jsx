@@ -1,50 +1,54 @@
 import { useState, useEffect } from "react";
-import api from "../api";
 import LogoutButton from "../components/LogoutButton";
-import Note from "../components/Note"
-import "../styles/Home.css"
+import Note from "../components/Note";
+import "../styles/Home.css";
 
 function Home() {
-    const [notes, setNotes] = useState([]);
+    const [notes, setNotes] = useState([
+        { id: 1, title: "Welcome!", content: "This is your first note.", created_at: new Date().toISOString(), updated_at: new Date().toISOString() },
+        { id: 2, title: "Getting Started", content: "Add more notes using the form below.", created_at: new Date().toISOString(), updated_at: new Date().toISOString() }
+    ]);
     const [content, setContent] = useState("");
     const [title, setTitle] = useState("");
 
+    // No need for initial API call
     useEffect(() => {
-        getNotes();
+        // Load notes from localStorage if available
+        const savedNotes = localStorage.getItem('notes');
+        if (savedNotes) {
+            setNotes(JSON.parse(savedNotes));
+        }
     }, []);
 
-    const getNotes = () => {
-        api
-            .get("/api/notes/")
-            .then((res) => res.data)
-            .then((data) => {
-                setNotes(data);
-                console.log(data);
-            })
-            .catch((err) => alert(err));
-    };
+    // Save notes to localStorage whenever they change
+    useEffect(() => {
+        localStorage.setItem('notes', JSON.stringify(notes));
+    }, [notes]);
 
     const deleteNote = (id) => {
-        api
-            .delete(`/api/notes/delete/${id}/`)
-            .then((res) => {
-                if (res.status === 204) alert("Note deleted!");
-                else alert("Failed to delete note.");
-                getNotes();
-            })
-            .catch((error) => alert(error));
+        if (window.confirm("Are you sure you want to delete this note?")) {
+            setNotes(notes.filter(note => note.id !== id));
+        }
     };
 
     const createNote = (e) => {
         e.preventDefault();
-        api
-            .post("/api/notes/", { content, title })
-            .then((res) => {
-                if (res.status === 201) alert("Note created!");
-                else alert("Failed to make note.");
-                getNotes();
-            })
-            .catch((err) => alert(err));
+        if (!title.trim() || !content.trim()) {
+            alert("Please enter both title and content");
+            return;
+        }
+        
+        const newNote = {
+            id: Date.now(), // Use timestamp as unique ID
+            title: title.trim(),
+            content: content.trim(),
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString()
+        };
+        
+        setNotes([...notes, newNote]);
+        setTitle("");
+        setContent("");
     };
 
     return (

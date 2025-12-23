@@ -14,22 +14,29 @@ function Form({ route, method }) {
     const name = method === "login" ? "Login" : "Register";
 
     const handleSubmit = async (e) => {
-        setLoading(true);
         e.preventDefault();
-
+        setLoading(true);
+        
         try {
-            const res = await api.post(route, { username, password })
             if (method === "login") {
-                localStorage.setItem(ACCESS_TOKEN, res.data.access);
-                localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
-                navigate("/")
+                // Simulate successful login without database check
+                const mockToken = btoa(JSON.stringify({ 
+                    username,
+                    timestamp: new Date().toISOString()
+                }));
+                
+                localStorage.setItem(ACCESS_TOKEN, mockToken);
+                localStorage.setItem(REFRESH_TOKEN, mockToken);
+                navigate("/");
             } else {
-                navigate("/login")
+                // For registration, just redirect to login
+                navigate("/login");
             }
         } catch (error) {
-            alert(error)
+            console.error("Authentication error:", error);
+            alert("An error occurred during authentication");
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
     };
 
