@@ -34,3 +34,23 @@
 .form-button:hover {
   background-color: #0056b3;
 }
+
+.form-footer {
+  margin-top: 10px;
+  color: #666;
+  font-size: 0.9em;
+  text-align: center;
+  width: 100%;
+}
+
+.form-link {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease-in-out;
+}
+
+.form-link:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}

@@ -54,6 +54,17 @@ function Form({ route, method }) {
             <button className="form-button" type="submit">
                 {name}
             </button>
+            <p className="form-footer">
+                {method === "login" ? (
+                    <>
+                        Don't have an account? <a href="/register" className="form-link">Register here</a>
+                    </>
+                ) : (
+                    <>
+                        Already have an account? <a href="/login" className="form-link">Login here</a>
+                    </>
+                )}
+            </p>
         </form>
     );
 }
