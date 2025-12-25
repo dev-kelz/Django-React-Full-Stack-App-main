@@ -12,10 +12,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
-import os
-
-# load .env when available (python-dotenv)
 from dotenv import load_dotenv
+import os
 
 load_dotenv()
 
@@ -31,12 +29,22 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG", "False") == "True"
+
 # ALLOWED_HOSTS can be a comma separated string in .env, e.g. ALLOWED_HOSTS=example.com,api.example.com
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "").split(",")
+# If not provided, allow common local hosts to avoid "Bad Request (400)" during development.
+_allowed = os.environ.get("ALLOWED_HOSTS")
+if _allowed:
+    ALLOWED_HOSTS = [h.strip() for h in _allowed.split(",") if h.strip()]
+else:
+    ALLOWED_HOSTS = ["*"] if DEBUG else ["127.0.0.1", "localhost"]
 
-# CSRF trusted origins can be a comma-separated string in .env, e.g. CSRF_TRUSTED_ORIGINS=https://example.com,https://api.example.com
-CSRF_TRUSTED_ORIGINS = os.environ.get("CSRF_TRUSTED_ORIGINS", "").split(",")
-
+# CSRF trusted origins can be a comma-separated string in .env, e.g.
+# CSRF_TRUSTED_ORIGINS=https://example.com,https://api.example.com
+_csrf = os.environ.get("CSRF_TRUSTED_ORIGINS")
+if _csrf:
+    CSRF_TRUSTED_ORIGINS = [u.strip() for u in _csrf.split(",") if u.strip()]
+else:
+    CSRF_TRUSTED_ORIGINS = []
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
@@ -76,7 +84,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    
 ]
 
 ROOT_URLCONF = "backend.urls"
@@ -103,6 +110,20 @@ WSGI_APPLICATION = "backend.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE":"django.db.backends.sqlite3",
+#         "NAME": BASE_DIR / "db.sqlite3",
+
+#         # "ENGINE": "django.db.backends.postgresql",
+#         # "NAME": os.getenv("DB_NAME"),
+#         # "USER": os.getenv("DB_USER"),
+#         # "PASSWORD": os.getenv("DB_PWD"),
+#         # "HOST": os.getenv("DB_HOST"),
+#         # "PORT": os.getenv("DB_PORT"),
+#     }
+# }
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
@@ -113,6 +134,7 @@ DATABASES = {
         "PORT": os.environ.get("DB_PORT", "5432"),
     }
 }
+
 
 
 # Password validation
@@ -149,8 +171,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = "static/"
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = "/static/"
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
@@ -160,4 +181,3 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
-
