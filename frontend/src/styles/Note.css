@@ -1,33 +1,132 @@
-.note-container {
-  padding: 10px;
-  margin: 20px 0;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+/* Note Card */
+.note-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e0e0;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.note-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.note-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.note-card:hover::before {
+  opacity: 1;
+}
+
+/* Note Header */
+.note-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
 }
 
 .note-title {
   color: #333;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.4;
+  flex: 1;
+  margin-right: 1rem;
 }
 
+/* Note Content */
 .note-content {
+  margin-bottom: 1rem;
+}
+
+.note-content p {
   color: #666;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* Note Footer */
+.note-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-top: 0.75rem;
+  border-top: 1px solid #f0f0f0;
 }
 
 .note-date {
   color: #999;
   font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
+/* Delete Button */
 .delete-button {
-  background-color: #f44336; /* Red */
-  color: white;
+  background: transparent;
   border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
+  color: #999;
+  padding: 0.5rem;
+  border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
 .delete-button:hover {
-  background-color: #d32f2f; /* Darker red */
+  background: #fff5f5;
+  color: #e53e3e;
+  transform: scale(1.1);
+}
+
+.delete-button svg {
+  transition: transform 0.3s ease;
+}
+
+.delete-button:hover svg {
+  transform: rotate(10deg);
+}
+
+/* Responsive Design */
+@media (max-width: 767px) {
+  .note-card {
+    padding: 1rem;
+  }
+  
+  .note-header {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .note-title {
+    margin-right: 0;
+    font-size: 1rem;
+  }
+  
+  .delete-button {
+    align-self: flex-end;
+  }
 }

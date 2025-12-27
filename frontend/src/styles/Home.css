@@ -1,88 +1,254 @@
-/* Container for the whole page */
-div {
-  font-family: Arial, sans-serif;
+/* Home Container */
+.home-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
 }
 
-/* Styles for the notes section */
-.notes-section {
-  margin-bottom: 2rem;
+/* Header */
+.home-header {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 1rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
-.notes-section h2 {
-  color: #333;
-  font-size: 24px;
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-/* Styles for individual notes - assuming your Note component has some container element */
-.note {
-  background-color: #f9f9f9;
-  border-left: 5px solid #007bff;
-  margin: 10px 0;
-  padding: 10px 15px;
-  border-radius: 5px;
-}
-
-/* Styles for the form section */
-form {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  max-width: 500px;
-  margin: auto;
-}
-
-form h2 {
-  color: #333;
-  font-size: 24px;
-  margin-bottom: 20px;
-}
-
-form label {
-  font-weight: bold;
-  margin-top: 10px;
-}
-
-form input,
-form textarea {
-  width: 100%;
-  padding: 8px;
-  margin: 8px 0 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-form input[type="submit"] {
-  background-color: #007bff;
+.app-title {
   color: white;
-  padding: 10px 20px;
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Main Content */
+.main-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .main-content {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+/* Notes Section */
+.notes-section {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.section-header h2 {
+  color: #333;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.notes-count {
+  color: #666;
+  font-size: 0.9rem;
+  background: #f0f0f0;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+/* Notes Grid */
+.notes-grid {
+  display: grid;
+  gap: 1rem;
+  min-height: 200px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #999;
+}
+
+.empty-state p {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+/* Create Note Section */
+.create-note-section {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  height: fit-content;
+  position: sticky;
+  top: 100px;
+}
+
+.form-container h2 {
+  color: #333;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0 0 1.5rem 0;
+}
+
+/* Form Styles */
+.note-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: #333;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.form-group textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* Submit Button */
+.submit-button {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
   border: none;
-  border-radius: 4px;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
-  font-size: 16px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
 }
 
-form input[type="submit"]:hover {
-  background-color: #0056b3;
+.submit-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
 }
 
-/* Logout button (top-right) */
+.submit-button:active {
+  transform: translateY(0);
+}
+
+.submit-button svg {
+  transition: transform 0.3s ease;
+}
+
+.submit-button:hover svg {
+  transform: rotate(90deg);
+}
+
+/* Logout Button Updates */
 .logout-wrapper {
-  margin: 1rem;
+  margin: 0;
 }
 
 .logout-button {
-  background: transparent;
-  border: 1px solid #d9534f;
-  color: #d9534f;
-  padding: 6px 12px;
-  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
 }
 
 .logout-button:hover {
-  background: #d9534f;
+  background: rgba(255, 255, 255, 0.3);
   color: white;
+  transform: translateY(-1px);
+}
+
+/* Responsive Design */
+@media (max-width: 767px) {
+  .home-header {
+    padding: 1rem;
+  }
+  
+  .header-content {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+  
+  .app-title {
+    font-size: 1.5rem;
+  }
+  
+  .main-content {
+    padding: 1rem;
+    gap: 1rem;
+  }
+  
+  .notes-section,
+  .create-note-section {
+    padding: 1.5rem;
+  }
+  
+  .create-note-section {
+    position: static;
+  }
 }
