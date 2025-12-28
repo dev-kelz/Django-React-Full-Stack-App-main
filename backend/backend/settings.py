@@ -47,7 +47,7 @@ else:
     CSRF_TRUSTED_ORIGINS = []
 
 CORS_ALLOWED_ORIGINS = [
-    "https://your-project-name.vercel.app",
+    "https://django-react-full-stack-app-main-puce.vercel.app",
 ]
 
 REST_FRAMEWORK = {
