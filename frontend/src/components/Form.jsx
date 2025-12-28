@@ -14,24 +14,38 @@ function Form({ route, method }) {
     const name = method === "login" ? "Login" : "Register";
 
     const handleSubmit = async (e) => {
-        setLoading(true);
-        e.preventDefault();
+    e.preventDefault();
+    setLoading(true);
 
-        try {
-            const res = await api.post(route, { username, password })
-            if (method === "login") {
-                localStorage.setItem(ACCESS_TOKEN, res.data.access);
-                localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
-                navigate("/")
-            } else {
-                navigate("/login")
-            }
-        } catch (error) {
-            alert(error)
-        } finally {
-            setLoading(false)
+    try {
+        const res = await api.post(route, { username, password });
+
+        if (method === "login") {
+            localStorage.setItem(ACCESS_TOKEN, res.data.access);
+            localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
+            navigate("/");
+        } else {
+            navigate("/login");
         }
-    };
+    } catch (error) {
+        // Check if server responded
+        if (error.response) {
+            if (error.response.status === 401) {
+                alert("Invalid username or password. Please try again.");
+            } else {
+                alert(`Error: ${error.response.status} - ${error.response.statusText}`);
+            }
+        } else if (error.request) {
+            // Request was made but no response
+            alert("Network error. Please check your connection.");
+        } else {
+            // Something else
+            alert("An unexpected error occurred.");
+        }
+    } finally {
+        setLoading(false);
+    }
+};
 
     return (
         <form onSubmit={handleSubmit} className="form-container">

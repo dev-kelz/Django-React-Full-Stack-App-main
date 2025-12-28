@@ -36,7 +36,9 @@ _allowed = os.environ.get("ALLOWED_HOSTS")
 if _allowed:
     ALLOWED_HOSTS = [h.strip() for h in _allowed.split(",") if h.strip()]
 else:
-    ALLOWED_HOSTS = ["*"] if DEBUG else ["127.0.0.1", "localhost"]
+    # In production, require `ALLOWED_HOSTS` to be set via environment.
+    # Do not hardcode localhost here; use env var for explicit hosts.
+    ALLOWED_HOSTS = ["*"] if DEBUG else []
 
 # CSRF trusted origins can be a comma-separated string in .env, e.g.
 # CSRF_TRUSTED_ORIGINS=https://example.com,https://api.example.com
@@ -46,9 +48,26 @@ if _csrf:
 else:
     CSRF_TRUSTED_ORIGINS = []
 
-CORS_ALLOWED_ORIGINS = [
-    "django-react-full-stack-app-main-production-fb50.up.railway.app",
-]
+_cors = os.environ.get("CORS_ALLOWED_ORIGINS")
+if _cors:
+    # Parse provided comma-separated list, ignore empty entries
+    CORS_ALLOWED_ORIGINS = [u.strip() for u in _cors.split(",") if u.strip()]
+else:
+    # No env var provided — choose sensible defaults:
+    # - In DEBUG: allow common local dev origins used by the frontend dev server.
+    # - In production: default to the deployed frontend origin so a fresh
+    #   deployment works out-of-the-box; override via env when needed.
+    if DEBUG:
+        CORS_ALLOWED_ORIGINS = [
+            "http://localhost",
+            "http://localhost:3000",
+            "http://127.0.0.1",
+            "http://127.0.0.1:3000",
+        ]
+    else:
+        CORS_ALLOWED_ORIGINS = [
+            "https://django-react-full-stack-app-main-production-fb50.up.railway.app",
+        ]
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
@@ -185,5 +204,8 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_ALL_ORIGINS = os.environ.get(
+    "CORS_ALLOW_ALL_ORIGINS", "True" if DEBUG else "False"
+) == "True"
+
+CORS_ALLOW_CREDENTIALS = os.environ.get("CORS_ALLOW_CREDENTIALS", "True") == "True"
