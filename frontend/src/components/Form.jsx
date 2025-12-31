@@ -25,6 +25,7 @@ function Form({ route, method }) {
             localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
             navigate("/");
         } else {
+            alert("Account Created Successfully! Please login.");
             navigate("/login");
         }
     } catch (error) {
