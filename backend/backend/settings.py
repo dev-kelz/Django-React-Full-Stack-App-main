@@ -38,7 +38,7 @@ if _allowed:
 else:
     # In production, require `ALLOWED_HOSTS` to be set via environment.
     # Do not hardcode localhost here; use env var for explicit hosts.
-    ALLOWED_HOSTS = ["*"] if DEBUG else []
+    ALLOWED_HOSTS = ['13.60.225.191', "*"] if DEBUG else []
 
 # CSRF trusted origins can be a comma-separated string in .env, e.g.
 # CSRF_TRUSTED_ORIGINS=https://example.com,https://api.example.com
